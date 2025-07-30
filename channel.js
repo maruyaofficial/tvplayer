@@ -384,3 +384,4 @@ const channels = [
     }
   }
 ];
+window.channels = channels;
