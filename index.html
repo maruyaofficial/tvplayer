@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MaruyaTV Official</title>
+  <link rel="icon" type="image/png" href="https://s14.gifyu.com/images/bKGoY.png">
+  <script src="https://ssl.p.jwpcdn.com/player/v/8.36.6/jwplayer.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading MaruyaTV...</div>
+</div>
+
+<div id="popupOverlay" class="active">
+  <div class="popupBox">
+    <h2>Welcome to MaruyaTV</h2>
+    <p>Select a channel to begin watching.</p>
+    <button id="closePopupBtn">Continue</button>
+  </div>
+</div>
+ 
+<div class="container">
+  <div class="video-container">
+      <div id="player"></div>
+      <div id="fallbackMessage">Select a channel to start watching!</div>
+      <img src="https://s14.gifyu.com/images/bKGoY.png" alt="Logo" class="channel-logo" />
+  </div>
+
+  <aside class="sidebar">
+    <div class="top-controls">
+      <div class="channel-text">MARUYATV</div>
+      <div id="clock" class="clock-text"></div>
+      <div class="credits">
+        Made by 
+        <a href="https://reusora.org/" target="_blank" rel="noopener noreferrer">akirachoi01</a>
+      </div>
+      <div id="channelCount"></div>
+      <select id="categoryFilter" onchange="setupChannelList()">
+        <option value="all">All Categories</option>
+      </select>
+      <input class="search-input" type="search" placeholder="Search..." oninput="setupChannelList()" id="searchInput" />
+    </div>
+    <div class="list-container">
+      <ul class="channel-list" id="channelList"></ul>
+    </div>
+  </aside>
+</div>
+
+<script src="channels.js"></script>
+<script src="st.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('closePopupBtn').addEventListener('click', () => {
+      document.getElementById('popupOverlay').classList.remove('active');
+    });
+  });
+  setTimeout(() => {
+    document.getElementById("loadingScreen").style.display = "none";
+  }, 5000);
+
+  fetch('/api/jwplayer')
+    .then(res => res.json())
+    .then(data => {
+      jwplayer.key = data.key;
+    });
+</script>
+
+</body>
+</html>
